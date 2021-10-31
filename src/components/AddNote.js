@@ -73,7 +73,12 @@ export const AddNote = () => {
 						required
 					/>
 				</div>
-				<Select name="selectedTag" options={tagList} onChange={onChangeTag} />
+				<div className="mb-3">
+					<label htmlFor="description" className="form-label">
+						Tag
+					</label>
+					<Select name="selectedTag" options={tagList} onChange={onChangeTag} />
+				</div>
 				{/* <div className="mb-3">
 					<label htmlFor="tag" className="form-label">
 						Tag
