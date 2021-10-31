@@ -1,25 +1,43 @@
 import React, { useContext, useState } from "react";
+import Select from "react-select";
 import noteContext from "../context/notes/noteContext";
 
 export const AddNote = () => {
 	const context = useContext(noteContext);
 	const { addNote } = context;
 
-	const [note, setNote] = useState({
-		title: "",
-		description: "",
-		tag: "",
-	});
+	const [title, setTitle] = useState("");
+	const [description, setDescription] = useState("");
+	const [selectedTag, setSelectedTag] = useState("");
+
+	const tagList = [
+		{
+			value: "Personal",
+			label: "Personal",
+		},
+		{
+			value: "Work",
+			label: "Work",
+		},
+	];
 
 	const handleClick = (e) => {
 		e.preventDefault();
-		addNote(note.title, note.description, note.tag);
-		setNote({ title: "", description: "", tag: "" });
+		addNote(title, description, selectedTag);
+		setTitle("");
+		setDescription("");
+		setSelectedTag("");
+		//setNote({ title: "", description: "", tag: "" });
+		console.log(selectedTag[0]);
 	};
 
-	const onChange = (e) => {
-		setNote({ ...note, [e.target.name]: e.target.value });
+	const onChangeTag = (e) => {
+		setSelectedTag(e.label);
 	};
+
+	// const onChange = (e) => {
+	// 	setNote({ ...note, [e.target.name]: e.target.value });
+	// };
 	return (
 		<div>
 			<h2>Add a note</h2>
@@ -34,8 +52,8 @@ export const AddNote = () => {
 						id="title"
 						name="title"
 						aria-describedby="emailHelp"
-						value={note.title}
-						onChange={onChange}
+						value={title}
+						onChange={(e) => setTitle(e.target.value)}
 						minLength={5}
 						required
 					/>
@@ -49,13 +67,14 @@ export const AddNote = () => {
 						className="form-control"
 						id="description"
 						name="description"
-						value={note.description}
-						onChange={onChange}
+						value={description}
+						onChange={(e) => setDescription(e.target.value)}
 						minLength={5}
 						required
 					/>
 				</div>
-				<div className="mb-3">
+				<Select name="selectedTag" options={tagList} onChange={onChangeTag} />
+				{/* <div className="mb-3">
 					<label htmlFor="tag" className="form-label">
 						Tag
 					</label>
@@ -69,9 +88,27 @@ export const AddNote = () => {
 						minLength={5}
 						required
 					/>
+				</div> */}
+				<div class="mb-3">
+					{/* <div class="input-group-prepend">
+						<label class="input-group-text" for="inputGroupSelect01">
+							Tag
+						</label>
+					</div>
+					<select
+						value={selectedTag}
+						onChange={(e) => setSelectedTag({ selectedTag: e.target.value })}
+						// onChange={onChange}
+					>
+						{tags.map((tag) => (
+							<option key={tag} value={tag}>
+								{tag}
+							</option>
+						))}
+					</select> */}
 				</div>
 				<button
-					disabled={note.title.length < 5 || note.description.length < 5}
+					disabled={title.length < 5 || description.length < 5}
 					onClick={handleClick}
 					type="submit"
 					className="btn btn-primary"
